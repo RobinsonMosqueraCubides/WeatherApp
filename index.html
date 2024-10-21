@@ -1,31 +1,31 @@
 <!DOCTYPE html>
-<html lang="sp">
+<html lang="En">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Google Weather App Redesign</title>
     <link rel="shortcut icon" href="./storage/img/logo.png" type="image/png">
     <link rel="stylesheet" href="css/style.css">
-    <script type="module" src="js/script.js"></script>
 </head>
 <body>
     <header class="header">
-        <section class="nameLocation"><p class="nameCity">Hola, hola</p></section>
+        <section class="nameLocation"><p class="nameCity" id="nameCity">Hola, hola</p></section>
         <section class="weather">
             <div class="number">
-                <h2>3</h2>
+                <div class="textTemp"></div>
+                    <h2 id="temperature">3</h2>
                 <div class="text">
-                    <span>feels like 2</span>
+                    <span id="feelTemp">feels like 2</span>
                 </div>
             </div>
             <div class="icon">
-                <img src="" alt="">
-                <p>Cloudy</p>
+                <img src="" alt="" id="iconImg">
+                <p id="conditions">Cloudy</p>
             </div>
         </section>
         <section class="date">
             <div class="day">
-                <p>Junary 18, 16:14</p>
+                <p id="day">Junary 18, 16:14</p>
             </div>
             <div class="dayWeather">
                 <p>Day 3</p>
@@ -35,5 +35,6 @@
     </header>
     <main class="container"></main>
     <footer class="footer"></footer>
+    <script type="module" src="js/script.js"></script>
 </body>
 </html>

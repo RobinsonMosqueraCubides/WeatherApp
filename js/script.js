@@ -67,14 +67,53 @@ async function fetchWeather(city) {
 }
 
 function updateWeatherDisplay(dataG) {
-    
-    // Mostrar la ubicación
-    console.log(dataG);
+    // Actualizar la información básica de la ubicación y clima actual
     updateUbicationDisplay(dataG.location.name, dataG.location.country);  
     updateTemperatureDisplay(dataG.current.temp_c, dataG.current.feelslike_c);
     updateConditionsDisplay(dataG.current.condition.text, dataG.current.condition.icon);
     updateDayDisplay(dataG.current.last_updated);
+
+    // Extraer el pronóstico diario para calcular promedios de día y noche
+    const forecastDay = dataG.forecast.forecastday[0];
+    
+    // Llamar a la función para calcular los promedios de temperatura para el día y la noche
+    calculateDayAndNightAverages(forecastDay);
 }
+
+function calculateDayAndNightAverages(forecastDay) {
+    const tempDay = [];
+    const tempNight = [];
+
+    // Recorrer las horas del pronóstico
+    forecastDay.hour.forEach(hourData => {
+        const hour = new Date(hourData.time).getHours();
+
+        if (hour >= 6 && hour < 18) {
+            // 6am a 6pm es "día"
+            tempDay.push(hourData.temp_c);
+        } else {
+            // 6pm a 6am es "noche"
+            tempNight.push(hourData.temp_c);
+        }
+    });
+
+    // Llamar a la función updateNight para calcular y mostrar los promedios
+    updateNight(tempDay, tempNight);
+}
+
+function updateNight(tempDay, tempNight) {
+    // Calcular promedio de temperaturas de día
+    const avgTempDay = tempDay.reduce((sum, temp) => sum + temp, 0) / tempDay.length;
+    
+    // Calcular promedio de temperaturas de noche
+    const avgTempNight = tempNight.reduce((sum, temp) => sum + temp, 0) / tempNight.length;
+    const temNight = document.getElementById('tempNigth');
+    temNight.innerHTML = `Nigth ${avgTempNight.toFixed()}°`;
+    const temDay = document.getElementById('tempDay');
+    temDay.innerHTML = `Day ${avgTempDay.toFixed()}°`;
+}
+
+
 function updateUbicationDisplay(city, country) {
     const name = document.getElementById('nameCity');
     name.innerHTML = `${city}, ${country}`;
@@ -116,5 +155,9 @@ function updateDayDisplay(dateString){
 
     const dayElement = document.getElementById('day');
     dayElement.innerHTML = `${month}, ${day} ${hours}:${minutes}`;
+}
+
+function updateNigth(tempDay, tempNigth) {
+
 }
 init();

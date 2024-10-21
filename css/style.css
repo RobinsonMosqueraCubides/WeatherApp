@@ -15,7 +15,7 @@ body{
     background-repeat: no-repeat;
     background-position: center;
     width: 100%;
-    height: 60vh;
+    height: 50vh;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -81,10 +81,58 @@ body{
     align-items: end;
     width: 50%;
     height: 100%;
-
 }
 .header .date .dayWeather{
-
     width: 50%;
     text-align: right;
+}
+.container{
+    width: 100%;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+    align-items: center;
+    justify-content: center;
+}
+
+.container .nav{
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+}
+
+.container .nav button{
+    padding: 1rem 2rem;
+    background-color: var(--button-2);
+    color: var(--color-2);
+    border: none;
+    border-radius: 1rem;
+    cursor: pointer;
+}
+.container .nav button:hover{
+    background-color: var(--button-1);
+}
+
+.container .cards{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+.container .cards .card{
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    flex: 1 1 30%; 
+    max-width: 10rem;
+    min-width: 6rem;
+    height: 4rem;
+    padding: 1rem;
+    margin: 1rem;
+    background-color: var(--card-1);
+    border-radius: 0.8rem;
+}
+.container .cards .card span{
+    color: var(--color-2);
 }

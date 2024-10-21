@@ -28,12 +28,49 @@
                 <p id="day">Junary 18, 16:14</p>
             </div>
             <div class="dayWeather">
-                <p>Day 3</p>
-                <p>Nigth -1</p>
+                <p id="tempDay">Day 3</p>
+                <p id="tempNigth">Nigth -1</p>
             </div>
         </section>
     </header>
-    <main class="container"></main>
+    <main class="container">
+        <nav class="nav">
+            <button class="bToday" id="bTodat">Today</button>
+            <button class="bTomorrow" id="bTomorrow">Tomorrow</button>
+            <button class="bNextDays" id="bNextDays">10 days</button>    
+        </nav>
+        <section class="cards" id="cards">
+            <div class="card">
+                <img src="storage/img/air.png" alt="">
+                <span id="windSpeed">Wind speed <br> 12km/h</span>
+            </div>
+            <div class="card">
+                <img src="storage/img/rainy.png" alt="">
+                <span id="rainChance">Rain chance <br> 24%</span>
+            </div>
+            <div class="card">
+                <img src="storage/img/waves.png" alt="">
+                <span id="pressure">Pressure <br> 720 hpa</span>
+            </div>
+            <div class="card">
+                <img src="storage/img/light_mode.png" alt="">
+                <span id="uvIndex">Uv index <br> 2,3</span>
+            </div>
+        </section>
+        <section class="forecast">
+            <div class="forecastTitle">
+                <img src="storage/img/history_toggle_off.png" alt="">
+                <p>Hourly forecasyt</p>
+            </div>
+            <div class="forecastCards" id="forecastCards">
+                <div class="forecastCard">
+                    <img src="storage/img/sun.png" alt="">
+                    <span id="forecastTime">12:00</span>
+                    <span id="forecastTemp">15°C</span>
+                </div>  
+            </div>
+        </section>
+    </main>
     <footer class="footer"></footer>
     <script type="module" src="js/script.js"></script>
 </body>

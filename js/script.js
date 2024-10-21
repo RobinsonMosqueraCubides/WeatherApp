@@ -2,7 +2,6 @@ let apiKey = '2d2c8069e71a46cc9da123536242110';
 let ubication = '';
 let initialized = false;
 
-
 async function init() {
     if (initialized) return;
     initialized = true;
@@ -78,6 +77,10 @@ function updateWeatherDisplay(dataG) {
     
     // Llamar a la función para calcular los promedios de temperatura para el día y la noche
     calculateDayAndNightAverages(forecastDay);
+
+    // Actualizar detalles adicionales del clima
+    updateWeatherDetails(forecastDay.day);
+    console.log(forecastDay.day);    
 }
 
 function calculateDayAndNightAverages(forecastDay) {
@@ -113,6 +116,23 @@ function updateNight(tempDay, tempNight) {
     temDay.innerHTML = `Day ${avgTempDay.toFixed()}°`;
 }
 
+function updateWeatherDetails(dayData) {
+    // Actualizar velocidad del viento
+    const windSpeedElement = document.getElementById('windSpeed');
+    windSpeedElement.innerHTML = `Wind speed <br> ${dayData.maxwind_kph} km/h`;
+
+    // Actualizar probabilidad de lluvia
+    const rainChanceElement = document.getElementById('rainChance');
+    rainChanceElement.innerHTML = `Rain chance <br> ${dayData.daily_chance_of_rain}%`;
+
+    // Actualizar presión
+    const pressureElement = document.getElementById('pressure');
+    pressureElement.innerHTML = `Pressure <br> ${dayData.avgtemp_f} hpa`;
+
+    // Actualizar índice UV
+    const uvIndexElement = document.getElementById('uvIndex');
+    uvIndexElement.innerHTML = `Uv index <br> ${dayData.uv}`;
+}
 
 function updateUbicationDisplay(city, country) {
     const name = document.getElementById('nameCity');
@@ -157,7 +177,4 @@ function updateDayDisplay(dateString){
     dayElement.innerHTML = `${month}, ${day} ${hours}:${minutes}`;
 }
 
-function updateNigth(tempDay, tempNigth) {
-
-}
 init();

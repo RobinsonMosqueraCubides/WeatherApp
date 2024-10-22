@@ -64,6 +64,18 @@ async function fetchWeather(city) {
         console.error('Error en fetchWeather:', error);
     }
 }
+async function fetchWeather1(city) {
+    try {
+        const response = await fetch(`https://api.weatherapi.com/v1/forecast.json?key=${apiKey}&q=${city}&days=10`);
+        if (!response.ok) {
+            throw new Error('Error al obtener datos del clima.');
+        }
+        const data = await response.json();
+        return data; // Ahora devuelve los datos completos para usarlos en otras funciones
+    } catch (error) {
+        console.error('Error en fetchWeather:', error);
+    }
+}
 
 function updateWeatherDisplay(dataG) {
     // Actualizar la información básica de la ubicación y clima actual
@@ -80,7 +92,12 @@ function updateWeatherDisplay(dataG) {
 
     // Actualizar detalles adicionales del clima
     updateWeatherDetails(forecastDay.day);
-    console.log(forecastDay.day);    
+    
+    // Actualizar las próximas 6 horas con el pronóstico
+    updateNextHoursForecast(forecastDay.hour);
+
+    // Actualizar probabilidad de lluvia cada 6 horas
+    updateRainChanceEvery6Hours(forecastDay);
 }
 
 function calculateDayAndNightAverages(forecastDay) {
@@ -172,9 +189,109 @@ function updateDayDisplay(dateString){
     const hours = String(date.getHours()).padStart(2, '0'); // Obtener la hora y formatear a 2 dígitos
     const minutes = String(date.getMinutes()).padStart(2, '0'); // Obtener los minutos y formatear a 2 dígitos
 
-
     const dayElement = document.getElementById('day');
     dayElement.innerHTML = `${month}, ${day} ${hours}:${minutes}`;
 }
+
+function updateNextHoursForecast(hourlyData) {
+    // Seleccionamos las horas cada 2 horas
+    const nextSixHours = hourlyData.filter((hourData, index) => index % 2 === 0).slice(0, 6);
+
+    // Recorrer las próximas 6 horas y actualizar el HTML
+    const hoursContainer = document.querySelector('.hours');
+    hoursContainer.innerHTML = ''; // Limpiar contenido anterior
+
+    nextSixHours.forEach(hourData => {
+        // Crear un div para cada hora
+        const hourDiv = document.createElement('div');
+        hourDiv.classList.add('hour-item');
+
+        // Extraer la hora en formato legible
+        const hour = new Date(hourData.time).getHours();
+        const formattedHour = `${hour % 12 || 12} ${hour >= 12 ? 'PM' : 'AM'}`;
+
+        // Crear contenido del div
+        hourDiv.innerHTML = `
+            <p>${formattedHour}</p>
+            <img src="${hourData.condition.icon}" alt="${hourData.condition.text}">
+            <p>${hourData.temp_c}°C</p>
+        `;
+
+        // Añadir el div al contenedor
+        hoursContainer.appendChild(hourDiv);
+    });
+}
+
+function updateRainChanceEvery6Hours(forecastDay) {
+    // Limpiar el contenedor de barras de lluvia para actualizar con nuevos datos
+    const rainSection = document.querySelector('.rain-chance');
+    rainSection.innerHTML = `
+        <div class="section-title">
+            <div class="forecast-icon">
+                <img class="large-img" src="storage/img/rainy.png" alt="">
+            </div> Chance of Rain
+        </div>
+    `;
+
+    // Iterar sobre las horas del día con un intervalo de 6 horas (0, 6, 12, 18 horas)
+    for (let i = 0; i < forecastDay.hour.length; i += 6) {
+        const hourData = forecastDay.hour[i];
+        const time = new Date(hourData.time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        const rainChance = hourData.chance_of_rain;
+
+        // Crear barra de probabilidad de lluvia
+        const rainBarHTML = `
+            <div class="rain-bar">
+                <div class="time">${time}</div>
+                <div class="bar-container">
+                    <div class="bar" style="width: ${rainChance}%;"></div>
+                </div>
+                <div class="percentage">${rainChance}%</div>
+            </div>
+        `;
+        
+        // Insertar cada barra de probabilidad de lluvia en el contenedor
+        rainSection.innerHTML += rainBarHTML;
+    }
+}
+
+// Función que se activa cuando se hace clic en el botón 'bNextDays'
+function showNextDaysForecast(forecastDays) {
+    // Limpiar el contenido actual del main
+    const mainContainer = document.querySelector('.container');
+    mainContainer.innerHTML = ''; // Borra todo el contenido actual del main
+    
+    // Recorrer los días del pronóstico y crear las cards
+    forecastDays.forEach(dayData => {
+        const date = new Date(dayData.date).toLocaleDateString([], { weekday: 'long', day: 'numeric', month: 'long' });
+        const tempMin = dayData.day.mintemp_c;
+        const tempMax = dayData.day.maxtemp_c;
+        const iconUrl = dayData.day.condition.icon;
+        
+        // Crear el HTML de la card para cada día
+        const cardHTML = `
+            <div class="day-card">
+                <p class="day-date">${date}</p>
+                <img class="weather-icon" src="${iconUrl}" alt="Weather icon">
+                <p class="temp-max">Max: ${tempMax}°C</p>
+                <p class="temp-min">Min: ${tempMin}°C</p>
+            </div>
+        `;
+        
+        // Insertar cada card dentro del contenedor principal
+        mainContainer.innerHTML += cardHTML;
+    });
+}
+
+// Asignar el evento click al botón 'bNextDays'
+document.getElementById('bNextDays').addEventListener('click', () => {
+    // Se obtiene el pronóstico de los próximos días y se pasa a la función
+    fetchWeather(ubication).then(data => {
+        const forecastDays = data.forecast.forecastday; // Array con los días del pronóstico
+        showNextDaysForecast(forecastDays); // Llamar a la función para mostrar los días
+    });
+});
+
+
 
 init();

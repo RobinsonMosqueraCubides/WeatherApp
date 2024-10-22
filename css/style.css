@@ -3,7 +3,7 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    color: var(--color-1);
+    color: var(--color-2);
     font-family: "OpenSans-Regular";
 }
 body{
@@ -29,6 +29,9 @@ body{
     width: 100%;
     height: 15%;
 }
+.header .nameLocation p{
+    color: var(--color-1);
+}
 .header .weather{
     display: flex;
     align-items: center;
@@ -47,12 +50,16 @@ body{
 }
 .header .weather .number h2{
     font-size: 2.5rem;
+    color: var(--color-1);
 }
 .header .weather .number .text{
     display: flex;
     align-items: end;
     width:50%;
     height: 30%;
+}
+.header .weather .number .text span{
+    color: var(--color-1);
 }
 .header .weather .icon{
     display: flex;
@@ -61,6 +68,9 @@ body{
     justify-content: center;
     height: 100%;
     width: 100%;
+}
+.header .weather .icon p{
+    color: var(--color-1);
 }
 .header .weather .icon img{
     width: 50%;
@@ -75,6 +85,9 @@ body{
     width: 100%;
     height: 20%;
     padding: 1rem;
+}
+.header .date p{
+    color: var(--color-1);
 }
 .header .date .day{
     display: flex;
@@ -96,13 +109,14 @@ body{
     justify-content: center;
 }
 
-.container .nav{
+.nav{
     display: flex;
     justify-content: space-around;
     width: 100%;
+    padding: 1rem;
 }
 
-.container .nav button{
+.nav button{
     padding: 1rem 2rem;
     background-color: var(--button-2);
     color: var(--color-2);
@@ -110,7 +124,7 @@ body{
     border-radius: 1rem;
     cursor: pointer;
 }
-.container .nav button:hover{
+.nav button:hover{
     background-color: var(--button-1);
 }
 
@@ -135,4 +149,142 @@ body{
 }
 .container .cards .card span{
     color: var(--color-2);
+}
+.stats, .hourly-forecast, .day-forecast, .rain-chance, .sunrise-sunset {
+    padding: 15px;
+    width: 100%;
+    color: var(--color-2);
+}
+
+.stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+}
+
+.stat {
+    background-color: #ebdeff;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    border-radius: 8px;
+}
+
+.stat-icon {
+    margin-right: 10px;
+}
+
+.section-title {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+}
+
+.forecast-icon {
+    margin-right: 10px;
+}
+
+.hours {
+    display: flex;
+    justify-content: space-around;
+    background-color: #ebdeff;
+    padding: 10px;
+    border-radius: 8px;
+    overflow-x: auto;
+}
+
+.hour {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.rain-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.bar-container {
+    background-color: #D0BCFF;
+    width: 70%;
+    height: 12px;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.bar {
+    height: 100%;
+    background-color: var(--progress-bar-1);
+}
+
+.sunrise-sunset {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px; /* Para dar espacio entre los dos divs */
+}
+
+.sun-info {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #ebdeff;
+    padding: 10px;
+    border-radius: 8px;
+    flex: 1; /* Los divs se distribuyen de manera equitativa */
+}
+
+.sun-icon {
+    margin-right: 10px;
+}
+
+/**/
+
+.weather-icon img {
+    width: 140px; /* Ajusta el tamaño según tus necesidades */
+    height: auto; /* Mantiene la proporción de la imagen */
+}
+
+.wind-speed, .precipitation, .pressure, .uv-index {
+    font-size: 1.4em; /* Ajusta el tamaño según sea necesario */
+}
+
+.large-img {
+    width: 130%; /* Ajusta este valor según sea necesario */
+    height: auto; /* Mantiene la proporción de la imagen */
+}
+
+.day-graph img {
+    max-width: 100%; /* Se asegura de que la imagen no exceda el ancho del contenedor */
+    height: auto;    /* Mantiene la proporción de la imagen */
+}
+
+.day-card {
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    padding: 10px;
+    margin: 10px;
+    text-align: center;
+    width: 150px;
+}
+
+.day-card .day-date {
+    font-size: 1.1em;
+    font-weight: bold;
+}
+
+.day-card .weather-icon {
+    width: 50px;
+    height: 50px;
+}
+
+.day-card .temp-max {
+    color: #ff5733;
+}
+
+.day-card .temp-min {
+    color: #337aff;
 }
